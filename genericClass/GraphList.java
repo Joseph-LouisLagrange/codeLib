@@ -328,7 +328,7 @@ public class GraphList<T, E> {
 	
 	
 	/**
-	 * 搜索所以路径
+	 * 搜索所有路径
 	 * @param currentVertexNode
 	 * @param endVertexNode
 	 * @throws Exception
@@ -340,6 +340,16 @@ public class GraphList<T, E> {
 		this.pathSearch(startVertexNode,this.indexOf(startVertexNode), this.indexOf(endVertexNode),routerList, vertexNodes,path);
 	}
 	
+	/**
+	 * 
+	 * @param startVertexNode 当前节点
+	 * @param index 节点索引
+	 * @param endIndex 终点索引
+	 * @param router 路径链
+	 * @param vertexNodes 节点链
+	 * @param path 路径
+	 * @throws Exception
+	 */
 	private void pathSearch(T startVertexNode,int index,int endIndex,LinkedList< EdgeListNode<E>> router,LinkedList<T> vertexNodes ,Path path) throws Exception {
 			if(index==endIndex) {
 				path=path.getNewPath(startVertexNode);
@@ -351,9 +361,20 @@ public class GraphList<T, E> {
 				this.paths.add(path);
 				return;
 			}
+			
+			
 			if(vertexes[index].getEdgeList().isEmpty())
 				return;
 			for(EdgeListNode<E> e: vertexes[index].getEdgeList()) {
+				boolean isLoopback=false;
+				for(T vertexNode : vertexNodes) {
+					if(e.getVertexIndex()==this.indexOf(vertexNode)) {
+						isLoopback=true;
+							break;
+					}
+				}
+				if(isLoopback)
+					continue;
 				if(e.getVertexIndex()!=index) {
 					router.add(e);
 					vertexNodes.add(this.vertexes[e.getVertexIndex()].getData());
