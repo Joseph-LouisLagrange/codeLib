@@ -57,22 +57,8 @@ public class Version1Interface {
 	 */
 	protected void produceNumbers() {
 		Random rand = new Random();
-		boolean[] conflictArea = new boolean[13];
-		for (int i = 0; i < conflictArea.length; i++) {
-			conflictArea[i] = false;
-		}
-		int j = 0;
-		while (true) {
-			int index = rand.nextInt(13);
-			if (conflictArea[index]) {
-				continue;
-			} else {
-				this.numbers[j] = index+1;
-				conflictArea[index] = true;
-			}
-			j++;
-			if (j >= 4)
-				break;
+		for(int i=0;i<4;i++) {
+			this.numbers[i]=rand.nextInt(13)+1;
 		}
 	}
 

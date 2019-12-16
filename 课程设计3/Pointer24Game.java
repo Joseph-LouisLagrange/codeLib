@@ -7,9 +7,9 @@ import genericClass.LinkedList;
  * @version 创建时间：2019年12月3日 下午9:22:43 类说明 向上层返回表达式
  */
 public class Pointer24Game {
-	LinkedList<String> resultString=new LinkedList<String>();
-	 int[] number = new int[4];
-	 String[] exp =new String[4];
+	private LinkedList<String> resultString=new LinkedList<String>();
+	 private double[] number = new double[4];
+	 private String[] exp =new String[4];
 	public Pointer24Game(int a,int b,int c,int d) {
 		number[0]=a;
 		exp[0]=String.valueOf(a);
@@ -21,18 +21,23 @@ public class Pointer24Game {
 		exp[3]=String.valueOf(d);
 	}
 	public String[] getResultStrings() {
-		return this.resultString.toArray();
+		this.game(4);
+		String[] list=new String[this.resultString.getSize()];
+		int j=0;
+		for(Object i : this.resultString.toArray()) {
+			list[j++]=(String) i;
+		}
+		return list;
 	}
 	
 	public  void game(int n) {
 		if (n == 1) {
-			if (Math.round(number[0]) == 24) {
+			if (number[0] == 24) {
 				resultString.add(exp[0]);
 			}
 		} else {
 			for (int i = 0; i < n; i++) {
-				for (int j = i + 1; j < n; j++) {
-					
+				for (int j = i + 1; j < n; j++) {			
 					double a = number[i];
 					double b = number[j];
 					number[j] = number[n - 1];
@@ -41,30 +46,30 @@ public class Pointer24Game {
 					exp[j] = exp[n - 1];
 					//加法
 					exp[i] = "(" + str1 + "+" + str2 + ")";
-					number[i] = (int) Math.round(a + b);
+					number[i] = a + b;
 					game(n - 1);
 					//减法
 					exp[i] = "(" + str1 + "-" + str2 + ")";
-					number[i] = (int) Math.round(a - b);
+					number[i] =a - b;
 					game(n - 1);
 					//乘法
 					exp[i] = "(" + str1 + "*" + str2 + ")";
-					number[i] = (int) Math.round(a * b);
+					number[i] = a * b;
 					game(n - 1);
 					//除法
-					if ((int) b != 0) {
+					if ( b != 0) {
 						exp[i] = "(" + str1 + "/" + str2 + ")";
-						number[i] = (int) Math.round(a / b);
+						number[i] =a / b;
 						game(n - 1);
 					}
 					//减法
 					exp[i] = "(" + str2 + "-" + str1 + ")";
-					number[i] = (int) Math.round(b - a);
+					number[i] = b - a;
 					game(n - 1);
 					//除法
-					if ((int) a != 0) {
+					if (a != 0) {
 						exp[i] = "(" + str2 + "/" + str1 + ")";
-						number[i] = (int) Math.round(b / a);
+						number[i] = b / a;
 						game(n - 1);
 					}
 					//状态还原
