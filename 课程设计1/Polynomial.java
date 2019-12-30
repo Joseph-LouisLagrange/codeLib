@@ -1,5 +1,6 @@
 package 课程设计1;
 
+import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
 import genericClass.LinkedList;
@@ -92,11 +93,26 @@ public class Polynomial {
 	 * @throws Exception
 	 */
 	private Polynomial getsortedPolynomialByIndex() throws Exception {
-		Polynomial p = new Polynomial(this.sourcePolynomialString);
-		p.polynomialList = this.polynomialList.sort();
-		return p;
+		Polynomial result=new Polynomial();
+		result.polynomialList=new LinkedList<Item>();
+		LinkedList<Item> items = this.polynomialList.sort();
+		for(int i=0;i<items.getSize();) {
+			Item item=items.get(i);
+			int j=i+1;
+			for(;j<items.getSize();j++) {
+				if(items.get(i).compareTo(items.get(j))!=0) {
+					break;
+				}
+				item=Item.mergeItem(item, '+', items.get(j));
+			}
+			i=j;
+			result.polynomialList.add(item);
+		}
+		return result;
 	}
 
+	
+	
 	/**
 	 * 
 	 * @return 反转的多项式对象
@@ -190,8 +206,8 @@ public class Polynomial {
 	 */
 	public static Polynomial mergePolynomial(Polynomial polynomial1, char operator, Polynomial polynomial2)
 			throws Exception {
-		LinkedList<Item> polynomialList1 = polynomial1.polynomialList.sort();
-		LinkedList<Item> polynomialList2 = polynomial2.polynomialList.sort();
+		LinkedList<Item> polynomialList1 = polynomial1.getsortedPolynomialByIndex().polynomialList;
+		LinkedList<Item> polynomialList2 = polynomial2.getsortedPolynomialByIndex().polynomialList;
 		LinkedList<Item> newPolynomialList = new LinkedList<Item>();
 		Polynomial newPolymial = new Polynomial();
 		if (polynomial1 == null || polynomial2 == null)
@@ -273,5 +289,33 @@ public class Polynomial {
 			p.polynomialList.get(i).setIndex(p.polynomialList.get(i).getIndex()-1);
 		}
 		return p;
+	}
+	
+	public static void switchOn(){
+		String exit="exit";
+		Scanner input=new Scanner(System.in);
+		System.out.println();
+		while(true) {
+			System.out.print("Polynomial computer>");
+			String polynomialString=input.nextLine();
+			if(polynomialString.equals("")) {
+				continue;
+			}
+			String[] OPF=polynomialString.trim().split(" ");
+			try {
+				Polynomial p=new Polynomial(OPF[0]);
+				if(OPF[1].equals("-o")) {
+					System.out.println(p.toSortedPolynomialString());
+				}else if(OPF[1].equals("+")||OPF[1].equals("-")) {
+					System.out.println(Polynomial.mergePolynomial(p, OPF[1].charAt(0),new Polynomial(OPF[2])).toSortedPolynomialString());
+				}else if(OPF[1].equals("-d")) {
+					System.out.println(p.getDerivatePolynomial().toSortedPolynomialString());
+				}else {
+					System.out.println(p.toPolynomialString());
+				}
+			} catch (Exception e) {
+				System.out.println("error : "+e.getMessage());
+			}
+		}
 	}
 }

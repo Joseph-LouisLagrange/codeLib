@@ -9,6 +9,7 @@ public class Stack<T> {
 	private int top;
 
 	public Stack() {
+		stack = new Object[10];
 	}
 
 	public Stack(int maxSize) {
@@ -18,6 +19,10 @@ public class Stack<T> {
 
 	public boolean isEmpty() {
 		return top == -1;
+	}
+	
+	public boolean isFull() {
+		return top==this.stack.length-1;
 	}
 
 	public T getTop() throws Exception {

@@ -15,14 +15,21 @@ public class DecimalTransformDevice {
 				this.setSourceDecimal(sourceDecimal);
 			}
 			
-			
+			/**
+			 * 翻译进制码
+			 * @param sourceCode
+			 * @return 目标进制码
+			 * @throws Exception
+			 */
 			public String getDecimalCode(String sourceCode) throws Exception {
 				sourceCode=new StringBuffer(sourceCode).reverse().toString();
 				StringBuffer destCode=new StringBuffer();
 				String resultCode="";
 				int cardinalNumber=1;
 				for(int i=0;i<sourceCode.length();i++) {
+					//清空destCode
 					destCode.delete(0, destCode.length());
+					//判断是否为数字
 					if(!Character.isDigit(sourceCode.charAt(i)))
 						throw new Exception();
 					int value=Integer.parseInt(Character.toString(sourceCode.charAt(i)))*cardinalNumber;
@@ -40,7 +47,12 @@ public class DecimalTransformDevice {
 				return resultCode;
 			}
 			
-			
+			/**
+			 * 计算两个十进制数字的和
+			 * @param number1
+			 * @param number2
+			 * @return 两个数字的和
+			 */
 			private String addNumber(String number1,String number2) {
 				number1=new StringBuffer(number1).reverse().toString();
 				number2=new StringBuffer(number2).reverse().toString();

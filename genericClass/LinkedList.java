@@ -123,6 +123,13 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 	}
 	
 	/**
+	 * 删除全部的元素
+	 */
+	public void removeAll() {
+		this.head.setNextNode(null);
+	}
+	
+	/**
 	 * 
 	 * @return 链表长度
 	 */
@@ -156,7 +163,7 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 	 * 
 	 * @return 链表的数组转化
 	 */
-	public E[] toArray(){
+	public Object[] toArray(){
 		Object[] list=new Object[this.size];
 		int i=0;
 		LinkedListNode<E> p=this.head.getNextNode();
@@ -165,7 +172,7 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 			p=p.getNextNode();
 			i++;
 		}
-		return (E[])list;
+		return list;
 	}
 	/**
 	 * 不会破坏源链表
@@ -173,9 +180,9 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 	 * @throws Exception
 	 */
 	public LinkedList<E> sort() throws Exception {
-		E[] list=this.toArray();
-		SortClass.<E>mergeSort(list);
-		return new LinkedList<E>(list);
+		Object[] list=this.toArray();
+		SortClass.<Object>mergeSort(list);
+		return new LinkedList<E>((E[]) list);
 	}
 	/**
 	 * ,不会破坏源链表
@@ -183,7 +190,7 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 	 * @throws Exception
 	 */
 	public LinkedList<E> reverse() throws Exception {
-		E[] list=this.toArray();
+		E[] list=(E[]) this.toArray();
 		int length=list.length;
 		for(int i=0;i<length/2;i++) {
 			E temp=list[i];
@@ -196,7 +203,6 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 	@Override
 	public boolean hasNext() {
 			if(next.getNextNode()==null) {
-				next=head;
 				return false;
 			}
 		return true;
@@ -212,6 +218,7 @@ public class LinkedList<E> implements Iterable<E>,Iterator<E> {
 	}
 	@Override
 	public Iterator<E> iterator() {
+		this.next=this.head;
 		return this;
 	}
 }

@@ -29,7 +29,7 @@ public class Pointer24Game {
 		}
 		return list;
 	}
-	
+
 	public  void game(int n) {
 		if (n == 1) {
 			if (number[0] == 24) {
@@ -37,7 +37,7 @@ public class Pointer24Game {
 			}
 		} else {
 			for (int i = 0; i < n; i++) {
-				for (int j = i + 1; j < n; j++) {			
+				for (int j = i + 1; j < n; j++) {
 					double a = number[i];
 					double b = number[j];
 					number[j] = number[n - 1];
@@ -73,8 +73,8 @@ public class Pointer24Game {
 						game(n - 1);
 					}
 					//状态还原
-					number[i] = (int) a;
-					number[j] = (int) b;
+					number[i] = a;
+					number[j] = b;
 					exp[i] = str1;
 					exp[j] = str2;
 				}
